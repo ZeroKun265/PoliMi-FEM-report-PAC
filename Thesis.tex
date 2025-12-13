@@ -114,7 +114,7 @@
 \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the preamble pages
 
 \puttitle{
-	title=Report 1: Banco di prova , % Title of the thesis
+	title=Raccolta report di esperienze su Abaqus, % Title of the thesis
 	course=086510 Progettazione Assistita dal Calcolatore,
 	academicyear={2025-26}, 
 }
@@ -124,6 +124,16 @@
 %----------------------------------------------------------------------------
 \startpreamble
 \setcounter{page}{1} % Set page counter to 1
+
+\chapter{Sommario}
+Questo documento è l'unione di 3 report differenti, svolti durante il corso di Progettazione Assistita al Calcolatore:
+\begin{itemize}
+    \item Banchetto di prova SHM.
+    \item Mensola 2D incastrata con intagli.
+    \item Recipiente in pressione.
+\end{itemize}
+
+Per ogni report verrà descritto il problema reale da studiare, le scelte di modellazione eseguite e, dove applicabile, risoluzioni analitiche.
 
 % TABLE OF CONTENTS
 \thispagestyle{empty}
@@ -152,16 +162,132 @@
 % --------------------------------------------------------------------------
 % NUMBERED CHAPTERS % Regular chapters following
 % --------------------------------------------------------------------------
-\chapter{Problema reale}
+\chapter{Banchetto SHM}
+\section{Problema reale}
 \label{ch:problema_reale}%
-\input{ch1.tex}
+\begin{figure}[H]
+    \centering
+
+    \begin{minipage}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/carr.png}
+        \caption{Carrello a terra}
+        \label{fig:carr}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/Banchetto prova.png}
+        \caption{Banco di prova con sistema di carico}
+        \label{fig:banco}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/cern.png}
+        \caption{Cerniera a terra}
+        \label{fig:cern}
+    \end{minipage}
+
+\end{figure}
+
+Nel seguente rapporto, si vogliono studiare le deformazioni di una struttura a travi di un banco di prova, rappresentata nella figura \ref{fig:banco}.
+Si modellano le aste con elementi truss lineari (T2D2) e elementi beam lineari (B21) utilizzando il risolutore di simulazioni Abaqus e adottando un approccio analitico (solo per i truss).
+
+Le 7 aste sono collegate tra di loro con delle piastre bullonate, mentre la parte sinistra inferiore del telaio è vincolato a terra con una cerniera, quella superiore da un carrello. Un carico di $428 \space N$ viene applicato dal sistema di carico a destra.
+
+\subsection{Ottenimento dei vincoli}
+\label{ss:ottenimento_vincoli}%
+Le aste sono vincolate con delle piastre di giunzione bullonate, come in figura \ref{fig:giunz}.
+Queste possono agire da vincolo di incastro quando ai bulloni viene applicata una coppia di serraggio di $10 \space Nm$, oppure da vincolo di cerniera se non sono serrati.
+
+Si ottengono i vincoli di carrello e cerniera a terra con due montaggi diversi, rispettivamente mostrati in figura \ref{fig:carr} e figura \ref{fig:cern}
 
 
-\chapter{Modellazione con elementi truss}
+\subsection{Travi e giunzioni}
+\label{ss:travi_giunzioni}%
+\begin{figure}[H]
+    \centering
+
+    \begin{minipage}{0.40\linewidth}
+        \centering
+        \includegraphics[width=0.6\linewidth]{Images/giunzione.png}
+        \caption{Piastra di giunzione in attivo}
+        \label{fig:giunz}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.40\linewidth}
+        \centering
+        \includegraphics[width=0.6\linewidth]{Images/Piastra tavola.png}
+        \caption{Quote della piastra di giunzione}
+        \label{fig:giunz_tavola}
+    \end{minipage}
+
+\end{figure}
+
+Le varie dimensioni della piastra sono rappresentate nella figura \ref{fig:giunz_tavola}. I bulloni utilizzati sono M6.
+Nella figura \ref{fig:asta_giunta} si ha la rappresentazione del sistema di fissaggio delle aste.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\linewidth]{Images/sist fissaggio.png}
+    \caption{Sistema di fissaggio delle aste}
+    \label{fig:asta_giunta}
+\end{figure}
+
+Le travi sono in alluminio, con il modulo di Young $E = 61639.8 MPa$, sono di sezione quadrata cava, con le quote riportate in figura \ref{fig:aste_quote}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/asta_quote.png}
+    \caption{Quote di asta e sezione trasversale}
+    \label{fig:aste_quote}
+\end{figure}
+
+\subsection{Posizionamento e utilizzo degli estensimetri}
+\label{s:estensimetri}%
+Si posizionano degli estensimetri sulle aste della struttura, collegati a diversi canali, numerati da 0 a 7, connessi poi a una scheda di acquisizione \textit{National Instrument NI-9235} con software \textit{LabVIEW}.
+Ogni estensimetro è di tipo \textit{1-LY13-6/120} , specifico per leghe di alluminio, montati come nell'immagine \ref{fig:est_montaggio}. Il circuito di misura è rappresentato nella figura \ref{fig:schema_wheatstone}
+
+\begin{figure}[H]
+    \centering
+    \input{ponte}
+\end{figure}
+
+Gli estensimetri sono posizionati, uno per asta, come nell'immagine \ref{fig:posiz_est}
+
+
+\begin{figure}[H]
+    \centering
+
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/Montaggio estensimetro.png}
+        \caption{Montaggio estensimetro}
+        \label{fig:est_montaggio}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=0.65\linewidth]{Images/posizioni_est.png}
+        \caption{Posizioni degli estensimetri}
+        \label{fig:posiz_est}
+    \end{minipage}
+
+\end{figure}
+
+I dettagli della configurazione corrente sono:
+\begin{itemize}
+    \item Gli estensimetri misurano uno alla volta
+    \item Gli effetti termici sull'estensimetro non sono compensati
+    \item Le resistenze dei fili non sono compensate
+\end{itemize}
+
+\section{Modellazione con elementi truss}
 \label{ch:mod_truss}%
-Studiamo la struttura con elementi lineari truss: due nodi e forze solo assiali
+Si studia ora la struttura con elementi lineari truss: due nodi e forze solo assiali
 
-\section{Trattazione analitica}
+\subsection{Trattazione analitica}
 \label{s:truss_analog}%
 \begin{figure}[H]
     \centering
@@ -170,7 +296,7 @@ Studiamo la struttura con elementi lineari truss: due nodi e forze solo assiali
     \label{fig:esploso_an}
 \end{figure}
 
-Usiamo una formulazione analitica, quindi dato lo schema delle forze nell'esploso in figura \ref{fig:esploso_an} possiamo ricavarci la matrice in figura \ref{fig:matr} del bilancio delle forze ai nodi, dalla quale ricaviamo le nostre forze interne e forze vincolari:
+Si utilizza una formulazione analitica, quindi dato lo schema delle forze nell'esploso in figura \ref{fig:esploso_an} si possono ricavare la matrice in figura \ref{fig:matr} del bilancio delle forze ai nodi, dalla quale si ricavano poi le azioni interne e le reazioni vincolari:
 
 $$F_1 = -428\space N \quad F_2 = 428 \space N\quad F_3 = -428 \space N \quad F_4 = 428 \space N \quad F_5 = 428 \space N$$
 $$F_6 = -856 \space N\quad F_7 = 0 \space N\quad R_{1x} = -428\sqrt3\space N \quad R_{1y} = -428 \space N\quad R_{2x} = -428\sqrt3 \space N$$
@@ -199,20 +325,183 @@ P &+\frac{1}2 F_1 & -\frac12F_2 & & & & & & & & & 0\\
 \end{figure}
 
 
-
-\section{Simulazione ad elementi finiti}
+\subsection{Simulazione ad elementi finiti}
 \label{s:truss_sim}%
+Il modello Abaqus è stato costruito rispecchiando quello analitico risolto in precedenza (utilizzando quindi elementi T2D2), al fine di verificarne la validità. Questo verrà successivamente modificato per ridurre le semplificazioni e avvicinarsi al fenomeno reale; in figura \ref{fig:assembly_truss} il modello semplice in Abaqus
 
-\chapter{Modellazione con elementi beam}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{assembly_truss.png}
+    \caption{Modello con elementi truss in Abaqus}
+    \label{fig:assembly_truss}
+\end{figure}
+
+Per confrontare la simulazione col modello analitico si sfruttano i grafici che seguono:
+\begin{itemize}
+    \item In figura \ref{fig:freccine_truss} è rappresentato il verso delle azioni interne
+    \item In figure \ref{fig:truss_grafichino} si può apprezzare il valore delle forze con segno, in base alla convenzione analitica in figura \ref{fig:esploso_an}
+    \item In figura\ref{fig:truss_def} si osservano invece la struttura indeformata in nero con la sua deformata (fattore di scala $5e2$)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{minipage}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/truss_s11_arrows.png}
+        \caption{Verso delle azioni interne}
+        \label{fig:freccine_truss}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/truss_grafico_columns.jpeg}
+        \caption{Azioni interne sugli elementi con segno}
+        \label{fig:truss_grafichino}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Images/truss_def.png}
+        \caption{Deformata e indeformata della struttura (scale factor: $5e2$)}
+        \label{fig:truss_def}
+    \end{minipage}
+
+\end{figure}
+
+I risultati del modello simulato convergono con quelli del modello analitico, confermandone la validità; si possono quindi estrarre i dati sulle deformazioni, mostrate in figura \ref{fig:truss_deform_ab}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{truss_deformazioni.png}
+    \caption{Deformazioni nel modello a truss di Abaqus}
+    \label{fig:truss_deform_ab}
+\end{figure}
+
+\section{Modellazione con elementi beam}
 \label{ch:mod_beam}%
+Ora che il modello semplificato è stato validato, si sfruttano le capacità di calcolo del software Abaqus per fare un modello più realistico, usando elementi di tipo beam, capaci di trasmettere azioni interne assiali e tangenziali ai nodi (con codice Abaqus B21)
 
-\section{Travi incastrate}
+In figura \ref{fig:beam_seed} si vede l'assembly della struttura con i vari nodi che compongono la mesh.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Images/beam_seed.png}
+    \caption{Mesh del caso beam}
+    \label{fig:beam_seed}
+\end{figure}
+
+A seconda del serraggio o meno dei bulloni che creano il vincolo al nodo $3$, si possono creare dei modelli simili dove però le travi coinvolte sono incernierate (bulloni non serrati) o incastrate (bulloni serrati). Entrambi i casi sono trattati di seguito.
+
+\subsection{Travi incastrate}
 \label{s:full_encastre}%
 
-\section{Travi incernierate}
-\label{s:beam_2}%
+\begin{figure}[H]
+    \centering
 
-\chapter{Risultato sperimentale}
-\label{ch:exp}%
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=0.5\linewidth]{Images/beam_ref_points.png}
+        \caption{Assembly della struttura usando con modelli beam}
+        \label{fig:ass_beam}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=0.5\linewidth]{Images/nodo_2_zoom.png}
+        \caption{Primo piano del nodo centrale}
+        \label{fig:nodo_2_zoom}
+    \end{minipage}
+\end{figure}
+
+In figura \ref{fig:ass_beam} si vede la struttura costruita con modello beam per le assi. Per la trattazione a travi incastrate, viene impostato un vincolo cinematico tra i punti $RP-11, RP-13, RP-14, RP-15, RP-18$ di incastro, bloccando spostamento e rotazione.
+In figura \ref{fig:nodo_2_zoom} si vede un primo piano dei nodi sopracitati.
+
+Avviata la simulazione, si possono leggere i risultati:
+\begin{itemize}
+    \item In figura \ref{fig:beam_enc_def} le deformazioni nelle posizioni degli estensimetri
+    \item In figura \ref{fig:beam_az_int} le azioni interne sulle aste 
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+
+    \begin{minipage}{0.7\linewidth}
+        \centering
+    \includegraphics[width=1\linewidth]{Images/beam_enc_def.png}
+    \caption{Deformazioni del caso beam incastrato}
+    \label{fig:beam_enc_def}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.7\linewidth}
+        \centering
+    \includegraphics[width=1\linewidth]{Images/beam_az_int.png}
+    \caption{Azioni interne delle aste del caso beam incastrato}
+    \label{fig:beam_az_int}
+    \end{minipage}
+\end{figure}
+
+
+
+
+
+Le immagini contenenti la deformata hanno uno scale factor di $2.767e+02$. La figura \ref{fig:beam_az_int} contenente le azioni interne all'asta è di particolare interesse: sono presenti azioni di trazione e compressione, coerenti con un modello di sforzi normali \textit{"a farfalla"} per la flessione, in grande contrasto con il modello visto precedentemente che permetteva solo trazione e compressione totale. In figura \ref{fig:profilo_farf_beam_primopiano} è rappresentato un primo piano delle azioni interne su un'asta per facilità di visione
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Images/profilo_farf_beam_primopiano.png}
+    \caption{Primo piano delle azioni interne su un'asta beam in flessione}
+    \label{fig:profilo_farf_beam_primopiano}
+\end{figure}
+
+In figura \ref{fig:beam_enc_s_mises} invece si apprezzano gli sforzi equivalenti di \textit{Von Mises} 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Images/beam_enc_s_mises.png}
+    \caption{Sforzo equivalente di Von Mises sulle aste}
+    \label{fig:beam_enc_s_mises}
+\end{figure}
+
+\subsection{Travi incernierate}
+\label{s:beam_2}%
+Lo stesso modello può essere studiato nel caso di bulloni non serrati al nodo centrale, ovvero quello rappresentato in figura \ref{fig:nodo_2_zoom}. In questo caso si applica quindi un vincolo che permette la rotazione.
+
+Applicando quindi il vincolo differente, e lasciando il resto invariato, si procede alle rappresentazioni e ai risultati:
+
+\begin{itemize}
+    \item In figura \ref{fig:beam_joint_def} le deformazioni alle posizioni degli estensimetri
+    \item In figura \ref{fig:beam_joint_sm} gli sforzi equivalenti di Von Mises nelle aste
+    \item In figura \ref{fig:beam_joint_s11} gli sforzi assiali ($S11$) nelle aste
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{minipage}{0.7\linewidth}
+        \centering
+    \includegraphics[width=0.85\linewidth]{Images/beam_joint_def.png}
+    \caption{Deformazioni del caso beam incernierato}
+    \label{fig:beam_joint_def}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.7\linewidth}
+        \centering
+    \includegraphics[width=0.85\linewidth]{Images/beam_joint_sm.png}
+    \caption{Sforzo di Von Mises nella struttura beam incernierata}
+    \label{fig:beam_joint_sm}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.7\linewidth}
+        \centering
+    \includegraphics[width=0.9\linewidth]{beam_joint_s11.png}
+    \caption{Sforzo assiale nella struttura beam incernierata}
+    \label{fig:beam_joint_s11}
+    \end{minipage}
+\end{figure}
+
+\chapter{Mensola bidimensionale intagliata con incastro}
+
 
 \end{document}
