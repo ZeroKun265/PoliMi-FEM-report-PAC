@@ -192,7 +192,7 @@ Per ogni report verrà descritto il problema reale da studiare, le scelte di mod
 \end{figure}
 
 Nel seguente rapporto, si vogliono studiare le deformazioni di una struttura a travi di un banco di prova, rappresentata nella figura \ref{fig:banco}.
-Si modellano le aste con elementi truss lineari (T2D2) e elementi beam lineari (B21) utilizzando il risolutore di simulazioni Abaqus e adottando un approccio analitico (solo per i truss).
+Si modellano le aste con elementi truss lineari (T2D2) e elementi beam lineari (B23) utilizzando il risolutore di simulazioni Abaqus e adottando un approccio analitico (solo per i truss).
 
 Le 7 aste sono collegate tra di loro con delle piastre bullonate, mentre la parte sinistra inferiore del telaio è vincolato a terra con una cerniera, quella superiore da un carrello. Un carico di $428 \space N$ viene applicato dal sistema di carico a destra.
 
@@ -327,7 +327,7 @@ P &+\frac{1}2 F_1 & -\frac12F_2 & & & & & & & & & 0\\
 
 \subsection{Simulazione ad elementi finiti}
 \label{s:truss_sim}%
-Il modello Abaqus è stato costruito rispecchiando quello analitico risolto in precedenza (utilizzando quindi elementi T2D2), al fine di verificarne la validità. Questo verrà successivamente modificato per ridurre le semplificazioni e avvicinarsi al fenomeno reale; in figura \ref{fig:assembly_truss} il modello semplice in Abaqus
+Il modello Abaqus è stato costruito rispecchiando quello analitico risolto in precedenza (utilizzando quindi elementi T2D2), al fine di verificarne la validità. Questo verrà successivamente modificato per ridurre le semplificazioni e avvicinarsi al fenomeno reale; in figura \ref{fig:assembly_truss} il modello semplice in Abaqus, dove ogni trave è il suo elemento truss.
 
 \begin{figure}[H]
     \centering
@@ -340,7 +340,7 @@ Per confrontare la simulazione col modello analitico si sfruttano i grafici che 
 \begin{itemize}
     \item In figura \ref{fig:freccine_truss} è rappresentato il verso delle azioni interne
     \item In figure \ref{fig:truss_grafichino} si può apprezzare il valore delle forze con segno, in base alla convenzione analitica in figura \ref{fig:esploso_an}
-    \item In figura\ref{fig:truss_def} si osservano invece la struttura indeformata in nero con la sua deformata (fattore di scala $5e2$)
+    \item In figura \ref{fig:truss_def} si osserva invece la struttura indeformata in nero con la sua deformata (fattore di scala $5e2$)
 \end{itemize}
 
 \begin{figure}[H]
@@ -354,10 +354,6 @@ Per confrontare la simulazione col modello analitico si sfruttano i grafici che 
     \end{minipage}
     \hfill
     \begin{minipage}{0.3\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{Images/truss_grafico_columns.jpeg}
-        \caption{Azioni interne sugli elementi con segno}
-        \label{fig:truss_grafichino}
     \end{minipage}
     \hfill
     \begin{minipage}{0.3\linewidth}
@@ -369,29 +365,50 @@ Per confrontare la simulazione col modello analitico si sfruttano i grafici che 
 
 \end{figure}
 
-I risultati del modello simulato convergono con quelli del modello analitico, confermandone la validità; si possono quindi estrarre i dati sulle deformazioni, mostrate in figura \ref{fig:truss_deform_ab}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{Images/truss_grafico_columns.jpeg}
+    \caption{Azioni interne sugli elementi con segno}
+    \label{fig:truss_grafichino}
+\end{figure}
+
+I risultati del modello simulato convergono con quelli del modello analitico, confermandone la validità; si possono quindi estrarre i dati sulle deformazioni, mostrati in figura \ref{fig:truss_deform_ab}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{truss_deformazioni.png}
+    \includegraphics[width=1\linewidth]{Images/truss_deformazioni.png}
     \caption{Deformazioni nel modello a truss di Abaqus}
     \label{fig:truss_deform_ab}
 \end{figure}
 
 \section{Modellazione con elementi beam}
 \label{ch:mod_beam}%
-Ora che il modello semplificato è stato validato, si sfruttano le capacità di calcolo del software Abaqus per fare un modello più realistico, usando elementi di tipo beam, capaci di trasmettere azioni interne assiali e tangenziali ai nodi (con codice Abaqus B21)
+Ora che il modello semplificato è stato validato, si sfruttano le capacità di calcolo del software Abaqus per realizzare un modello più realistico, utilizzando elementi di tipo beam, capaci di trasmettere azioni interne assiali e tangenziali ai nodi (con codice Abaqus B23).
 
 In figura \ref{fig:beam_seed} si vede l'assembly della struttura con i vari nodi che compongono la mesh.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{Images/beam_seed.png}
+    \includegraphics[width=0.8\linewidth]{Images/beam_seed.png}
     \caption{Mesh del caso beam}
     \label{fig:beam_seed}
 \end{figure}
 
-A seconda del serraggio o meno dei bulloni che creano il vincolo al nodo $3$, si possono creare dei modelli simili dove però le travi coinvolte sono incernierate (bulloni non serrati) o incastrate (bulloni serrati). Entrambi i casi sono trattati di seguito.
+La mesh è composta da:
+\begin{itemize}
+    \item 10 elementi per asta 
+     \begin{itemize}
+        \item Per un totale di 70 elementi
+    \end{itemize}
+    \item 11 nodi per asta
+     \begin{itemize}
+        \item Per un totale di 77 nodi
+    \end{itemize}
+\end{itemize}
+
+L'approximate size utilizzato degli elementi è 29 (millimetri).
+
+A seconda che vengano serrati o meno i bulloni che creano il vincolo al nodo $3$, si possono creare dei modelli simili dove nel primo caso le travi coinvolte sono incastrate (bulloni serrati) oppure incernierate (bulloni non serrati). Entrambi i casi sono trattati di seguito.
 
 \subsection{Travi incastrate}
 \label{s:full_encastre}%
@@ -399,16 +416,16 @@ A seconda del serraggio o meno dei bulloni che creano il vincolo al nodo $3$, si
 \begin{figure}[H]
     \centering
 
-    \begin{minipage}{0.45\linewidth}
+    \begin{minipage}{0.7\linewidth}
         \centering
-        \includegraphics[width=0.5\linewidth]{Images/beam_ref_points.png}
+        \includegraphics[width=1\linewidth]{Images/beam_ref_points.png}
         \caption{Assembly della struttura usando con modelli beam}
         \label{fig:ass_beam}
     \end{minipage}
     \hfill
-    \begin{minipage}{0.45\linewidth}
+    \begin{minipage}{0.7\linewidth}
         \centering
-        \includegraphics[width=0.5\linewidth]{Images/nodo_2_zoom.png}
+        \includegraphics[width=1\linewidth]{Images/nodo_2_zoom.png}
         \caption{Primo piano del nodo centrale}
         \label{fig:nodo_2_zoom}
     \end{minipage}
@@ -427,14 +444,14 @@ Avviata la simulazione, si possono leggere i risultati:
 \begin{figure}[H]
     \centering
 
-    \begin{minipage}{0.7\linewidth}
+    \begin{minipage}{0.9\linewidth}
         \centering
     \includegraphics[width=1\linewidth]{Images/beam_enc_def.png}
     \caption{Deformazioni del caso beam incastrato}
     \label{fig:beam_enc_def}
     \end{minipage}
     \hfill
-    \begin{minipage}{0.7\linewidth}
+    \begin{minipage}{0.9\linewidth}
         \centering
     \includegraphics[width=1\linewidth]{Images/beam_az_int.png}
     \caption{Azioni interne delle aste del caso beam incastrato}
@@ -444,9 +461,7 @@ Avviata la simulazione, si possono leggere i risultati:
 
 
 
-
-
-Le immagini contenenti la deformata hanno uno scale factor di $2.767e+02$. La figura \ref{fig:beam_az_int} contenente le azioni interne all'asta è di particolare interesse: sono presenti azioni di trazione e compressione, coerenti con un modello di sforzi normali \textit{"a farfalla"} per la flessione, in grande contrasto con il modello visto precedentemente che permetteva solo trazione e compressione totale. In figura \ref{fig:profilo_farf_beam_primopiano} è rappresentato un primo piano delle azioni interne su un'asta per facilità di visione
+Le immagini contenenti la deformata hanno uno scale factor di $2.767e+02$. La figura \ref{fig:beam_az_int} contenente le azioni interne all'asta è di particolare interesse: sono presenti azioni di trazione e compressione, coerenti con un modello di sforzi normali \textit{"a farfalla"} per la flessione, in grande contrasto con il modello visto precedentemente che permetteva solo trazione e compressione totale. In figura \ref{fig:profilo_farf_beam_primopiano} è rappresentato un primo piano delle azioni interne su un'asta, per facilità di visione.
 
 \begin{figure} [H]
     \centering
@@ -455,20 +470,20 @@ Le immagini contenenti la deformata hanno uno scale factor di $2.767e+02$. La fi
     \label{fig:profilo_farf_beam_primopiano}
 \end{figure}
 
-In figura \ref{fig:beam_enc_s_mises} invece si apprezzano gli sforzi equivalenti di \textit{Von Mises} 
+In figura \ref{fig:beam_enc_s_mises} invece si apprezzano gli sforzi equivalenti di \textit{Von Mises}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{Images/beam_enc_s_mises.png}
+    \includegraphics[width=1\linewidth]{Images/beam_enc_s_mises.png}
     \caption{Sforzo equivalente di Von Mises sulle aste}
     \label{fig:beam_enc_s_mises}
 \end{figure}
 
 \subsection{Travi incernierate}
 \label{s:beam_2}%
-Lo stesso modello può essere studiato nel caso di bulloni non serrati al nodo centrale, ovvero quello rappresentato in figura \ref{fig:nodo_2_zoom}. In questo caso si applica quindi un vincolo che permette la rotazione.
+Lo stesso modello può essere studiato nel caso di bulloni non serrati al nodo centrale, ovvero quello rappresentato in figura \ref{fig:nodo_2_zoom}. In questo caso si applica un vincolo che permette la rotazione.
 
-Applicando quindi il vincolo differente, e lasciando il resto invariato, si procede alle rappresentazioni e ai risultati:
+Applicando quindi un vincolo differente, e lasciando il resto della struttura invariato, si procede alle rappresentazioni e ai risultati:
 
 \begin{itemize}
     \item In figura \ref{fig:beam_joint_def} le deformazioni alle posizioni degli estensimetri
@@ -478,30 +493,464 @@ Applicando quindi il vincolo differente, e lasciando il resto invariato, si proc
 
 \begin{figure}[H]
     \centering
-
-    \begin{minipage}{0.7\linewidth}
-        \centering
-    \includegraphics[width=0.85\linewidth]{Images/beam_joint_def.png}
+    \includegraphics[width=0.95\linewidth]{Images/beam_joint_def.png}
     \caption{Deformazioni del caso beam incernierato}
     \label{fig:beam_joint_def}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.7\linewidth}
-        \centering
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=0.85\linewidth]{Images/beam_joint_sm.png}
     \caption{Sforzo di Von Mises nella struttura beam incernierata}
     \label{fig:beam_joint_sm}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.7\linewidth}
-        \centering
-    \includegraphics[width=0.9\linewidth]{beam_joint_s11.png}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Images/beam_joint_s11.png}
     \caption{Sforzo assiale nella struttura beam incernierata}
     \label{fig:beam_joint_s11}
-    \end{minipage}
 \end{figure}
 
 \chapter{Mensola bidimensionale intagliata con incastro}
 
+\section{Problema reale}
+Si vuole studiare la mensola mostrata in figura \ref{fig:2-mensola} che presenta due intagli e un raccordo in corrispondenza di una riduzione di sezione; in particolare si vuole trovare il valore dei coefficienti di intaglio in corrispondenza di questi 3 punti. Una forza concentrata $P = 19.62\space N$ è applicata all'estremità destra della mensola
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Images/2-mensola.png}
+    \caption{Disegno e quote della mensola}
+    \label{fig:2-mensola}
+\end{figure}
+
+Nella figura \ref{fig:2-mensola} sono riportati anche quattro punti $E_1, E_2, E_3, E_4$, che indicano il posizionamento di diversi estensimetri, montati come in mostrato in figura \ref{fig:2-estens}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Images/2-estens.png}
+    \caption{Montaggio estensimetri in corrispondenza degli intagli}
+    \label{fig:2-estens}
+\end{figure}
+
+I valori di deformazione ottenuti da queste misure sono i seguenti:
+$$\varepsilon_1 = 411 \mu\varepsilon \quad \varepsilon_2 = 1056 \mu \varepsilon \quad \varepsilon_3 = 218 \mu \varepsilon \quad \varepsilon_4 = 116 \mu \varepsilon$$
+
+Si procede quindi a trovare i coefficienti di intaglio tramite:
+\begin{itemize}
+    \item Calcoli analitici 
+    \item Tabelle sperimentali per gli intagli
+    \item Simulazioni ad elementi finiti
+\end{itemize}
+
+\section{Calcolo semi-analitico dei coefficienti di intaglio}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Images/2-schema-asta.png}
+    \caption{Schema asta incastrata semplice}
+    \label{fig:2-schema-asta}
+\end{figure}
+
+Si schematizza l'asta come in figura \ref{fig:2-schema-asta}, si trovano le azioni interne come in figura \ref{fig:2-azioni-interne} e si calcola il modulo di Young sfruttando l'estensimetro $E_4$, dove non abbiamo nessun tipo di intaglio.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Images/2-azioni-interne.png}
+    \caption{Azioni interne sull'asta incastrata}
+    \label{fig:2-azioni-interne}
+\end{figure}
+
+$$E = \frac{\sigma_\text{max, E4}}{\varepsilon_4} \qquad \sigma_\text{max, E4} = \frac{6 M_{f, E4}}{bh^2} \quad M_{f, E4} = P\cdot e \Rightarrow E = 64695 \space MPa$$
+
+Una volta trovato il modulo di Young, si calcolano prima gli sforzi nominali nelle posizioni degli intagli e poi, tramite il modulo di Young, si trova lo sforzo effettivo.
+
+$$\begin{cases}\begin{array}{l}
+\sigma_\text{nom, E1} = \frac{6 M_{f, E1}}{bh^2} = 15.01 \space MPa \\\sigma_\text{nom, E2} = \frac{6 M_{f, E2}}{bh^2} = 49.44\space MPa \\ \sigma_\text{nom, E3} = \frac{6 M_{f, E3}}{bh^2} = 9.56 MPa
+\end{array}
+\end{cases} \qquad \begin{cases}\begin{array}{l}
+\sigma_\text{max, E1} = E\cdot\varepsilon_1 = 26.59 \space MPa \\ \sigma_\text{max, E2} = E\cdot\varepsilon_2 = 68.32\space MPa \\ \sigma_\text{max, E3} = E\cdot\varepsilon_3 = 14.10 \space MPa
+\end{array}
+\end{cases}$$
+
+Segue infine il calcolo dei coefficienti di intaglio:
+
+$$K_{t,1,sper} = \frac{\sigma_\textbf{max, E1}}{\sigma_\textbf{nom, E1}} = 1.77\quad K_{t,2,sper} = \frac{\sigma_\textbf{max, E2}}{\sigma_\textbf{nom, E2}} = 1.38 \quad K_{t,3,sper} = \frac{\sigma_\textbf{max, E3}}{\sigma_\textbf{nom, E3}} = 1.47$$
+
+\section{Derivazione sperimentale dei coefficienti di intaglio da letteratura}
+
+Si possono derivare i coefficienti di intaglio anche da grafici di letteratura, quindi per il punto $E_1$ si consulta il grafico in figura \ref{fig:kt_e1_graph}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/kt_graph_e1.png}
+    \caption{Grafico da letteratura del coefficiente di intaglio per il tipo di intaglio nel punto $E_1$}
+    \label{fig:kt_e1_graph}
+\end{figure}
+
+Con $\frac{2r}{H}= 0.\bar 3$ si ottiene $K_{t, 1, lett} = 1.63$
+
+Passando al punto $E_2$ si può consultare il grafico in figura \ref{fig:kt_e2_graph}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/kt_e2_graph.png}
+    \caption{Grafico da letteratura del coefficiente di intaglio per il tipo di intaglio nel punto $E_2$}
+    \label{fig:kt_e2_graph}
+\end{figure}
+
+Con uno spessore $t = 5\space \text{mm}$  e un rapporto $t/r = 1.0$ (intaglio semicircolare), si utilizza la formulazione analitica indicata in figura \ref{fig:kt_e2_graph}: $K_{tn} = 3.065 - 6.637\left(\frac{2t}{H}\right) + 8.229\left(\frac{2t}{H}\right)^2 - 3.636\left(\frac{2t}{H}\right)^3$
+Sostituendo il valore di $\frac{2t}{H} = 0.\bar 3$, si ottiene $K_{t, 2, lett} = 1.63$.
+
+Per il punto $E_3$ invece ci si può rifare alla figura \ref{fig_kt_e3_graph}, che ci richiede di calcolare il rapporto $H/d$ per trovare la curva corretta, e intercettarla poi con una verticale in base al rapporto $r/d$.
+I valori vengono quindi $H/d = 1.5$ e $r/d = 0.25$ otteniamo un valore del $K_{t, 3, lett} = 1.52$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Images/kt_e3_graph.png}
+    \caption{Grafico da letteratura del coefficiente di intaglio per il tipo di intaglio nel punto $E_3$}
+    \label{fig:kt_e3_graph}
+\end{figure}
+
+
+\section{Costruzione modello Abaqus}
+Per verificare i risultati ottenuti col modello analitico, si utilizza il software Abaqus.
+Si aumenta progressivamente la densità della mesh fino a raggiungere il punto di rendimenti decrescenti, dove aumentare la densità non fornisce cambiamenti significativi dei risultati; una volta determinata la densità appropriata per ogni intaglio possiamo studiare i risultati.
+
+Il modello utilizza elementi CPS8R; la mesh utilizza una dimensione degli elementi globale pari a 2 (millimetri), infittendosi localmente vicino agli intagli per soddisfare la convergenza.
+
+La mesh finale ha 6858 elementi e 21359 nodi.
+
+Si utilizza l'integrazione ridotta per una diminuzione del tempo di simulazione, l'integrazione completa da dei risultati comparabili alla ridotta e quindi non necessaria.
+
+\subsection{Analisi di convergenza}
+
+Per lo studio dell'intaglio situato nel punto E1, le varie mesh utilizzate sono riportate in figura \ref{fig:conv_mesh_E1}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/conv_mesh_E1.png}
+    \caption{Mesh di variabili densità per il punto $E_1$, densità crescente verso destra}
+    \label{fig:conv_mesh_E1}
+\end{figure}
+
+Si vede in \ref{fig:conv_est_1} il grafico che mostra come all'aumentare della densità della mesh nel punto E1 si converga ad un risultato stabile in corrispondenza di un numero di elementi lungo l'arco pari a quaranta.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/conv_est_1.png}
+    \caption{Grafico dell'analisi di convergenza dell'intaglio E1}
+    \label{fig:conv_est_1}
+\end{figure}
+
+La stessa procedura di analisi è stata adottata per anche gli altri 2 punti di concentrazione degli sforzi, come si vede nelle figure \ref{fig:conv_mesh_E2} \ref{fig:conv_est_2}, \ref{fig:conv_mesh_E3}, \ref{fig:conv_est_3}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{conv_mesh_E2.png}
+    \caption{Mesh di variabili densità per il punto $E_2$, densità crescente verso destra}
+    \label{fig:conv_mesh_E2}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/conv_est_2.png}
+    \caption{Grafico dell'analisi di convergenza dell'intaglio E2}
+    \label{fig:conv_est_2}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Images/conv_mesh_E3.png}
+    \caption{Mesh di variabili densità per il punto $E_3$, densità crescente verso destra}
+    \label{fig:conv_mesh_E3}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/conv_est_3.png}
+    \caption{Grafico dell'analisi di convergenza dell'intaglio E3}
+    \label{fig:conv_est_3}
+\end{figure}
+
+
+
+\subsection{Risultati di simulazione}
+
+Verificata la convergenza del modello, e cercando di ottenere uno scostamento dai valori reali entro il $5\%$ dalla simulazione, si possono prelevare gli sforzi massimi, che sono rispettivamente per i punti $E_1, R_2, E_3, E_4$:
+
+$$\sigma_\textbf{max, E1} = 23.78 \space MPa\quad \sigma_\textbf{max, E2} = 65.24 \space MPa\quad \sigma_\textbf{max, E3} = 13.44 \space MPa \quad \sigma_\textbf{max, E4} = \space 8MPa$$
+
+Purtroppo, nel punto $E_1$, nonostante i tentativi non si è in grado di raggiungere uno scostamento inferiore al $5\%$ e bisogna accontentarsi di una discrepanza del $10\%$, che dati i valori relativamente bassi degli sforzi in quel punto non è ritenuta troppo problematica.
+
+$$D_{\%, E_1} = 10.56 \% \qquad D_{\%, E_2} = 4.51 \% \qquad  D_{\%, E_1} = 4.68 \%$$
+
+Si possono quindi calcolare anche i coefficienti di intaglio, o manualmente ($K_t = \frac{\sigma_\textbf{max}}{\sigma_\textbf{nom}}$) oppure partendo dagli scostamenti percentuali calcolati sopra ($K_{t, num} = K_{t, sper}\cdot(1-\frac{D_\%}{100})$).
+
+$$K_{t, num, E1} = 1.58 \qquad K_{t, num, E2} = 1.32 \qquad K_{t, num, E3} = 1.40$$
+
+In figura \ref{fig:mensola_sforzi_mappa} una visualizzazione degli sforzi calcolati dal simulatore.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{Images/mappa_colorata_intagli_2.png}
+    \caption{Visualizzazione sforzi S11 nei 3 diversi intagli della mensola}
+    \label{fig:mensola_sforzi_mappa}
+\end{figure}
+
+
+\chapter{Recipiente in pressione}
+
+\section{Problema reale}
+Si vogliono studiare gli sforzi in un contenitore assial-simmetrico in pressione , la cui geometria è riportata in immagine \ref{fig:press_geom}; si pone particolare attenzione allo stato di sforzo del mantello dello stesso, alla plasticizzazione (o meno) delle viti e della guarnizione metallica.
+
+La pressione interna è pari a $P = 7.4548 \space MPa$, e i materiali di costruzione sono \textit{Fe430D} per le parti del recipiente e \textit{AL6061-T6} per la guarnizione.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Images/press_geom.png}
+    \caption{Geometria e quote per il recipiente in pressione}
+    \label{fig:press_geom}
+\end{figure}
+
+\subsection{Recipiente e coperchio}
+
+Il recipiente e il coperchio sono realizzati in \textit{Fe430D} e si assumono le seguenti ipotesi:
+\begin{itemize}
+    \item Simmetria assiale.
+    \item Spessore costante e sottile.
+    \item Carichi radiali ed assiali assialsimmetrici.
+    \item Assenza di brusche variazioni di diametro.
+\end{itemize}
+
+Le direzioni principali di sforzo sono quelle radiali, assiali e circonferenziali.
+
+\subsection{Bulloni}
+I bulloni, che nel modello ad elementi finiti tridimensionale saranno modellati come un unico pezzo invece di una vite più il dado, sono dello stesso materiale del recipiente e coperchio; si tratta di 16 bulloni disposti radialmente e uniformemente sulla flangia per fissare il coperchio e schiacciare la guarnizione metallica.
+
+Uno degli obiettivi è quello di determinare la plasticizzazione o meno degli stessi, e per tanto si prenderà come valore di riferimento il limite di snervamento $R_s = 275 MPa$ 
+
+\subsection{Guarnizione}
+La guarnizione assicura la tenuta ed evita trafilamenti di fluido.
+E' realizzata in lega di alluminio \textit{Al6061-T6} con carico di snervamento $R_s = 145MPa$
+
+
+
+\section{Formule di Mariotte}
+Tramite le formule di Mariotte, valide per serbatoi caratterizzati da pareti sottili, si possono calcolare gli sforzi a cui è sottoposto il serbatoio in pressione lungo le tre componenti:
+\begin{itemize}
+    \item Sforzo assiale
+    \item Sforzo circonferenziale
+    \item Sforzo radiale
+\end{itemize}
+
+\[\sigma_c=\frac{P\cdot D}{2\cdot s}\qquad\sigma_a=\frac{P\cdot D}{4\cdot s}\qquad-P\leq\sigma_r\leq0\]
+
+Sostituendo i dati di pressione interna $P = 7.4548 \space MPa$, diametro interno $D = 400\space mm$ e spessore $s = 10 \space mm$ del serbatoio all'interno delle formule si ricavano i seguenti risultati
+\[\sigma_c=149.096 \space MPa\qquad\sigma_a=74.548\space MPa\qquad-7.4548\space MPa\leq\sigma_r\leq0\space MPa\]
+
+Il modello ad elementi finiti che segue permetterà di verificare la correttezza dei valori appena calcolati oltre che verificare l'ipotesi di parete sottile fatta inizialmente.
+
+\section{Modello ad elementi finiti}
+
+\subsection{Modello bidimensionale assialsimmetrico}
+Il primo modello costruito è semplificato, ottenuto utilizzando elementi assial-simmetrici. Si disegna un'area chiusa come in figura \ref{fig:press_geom_2d} che il programma utilizzerà per analizzare ciò che è effettivamente un solido di rotazione.
+
+Gli elementi usati nella simulazione hanno codice CAX4R: \textit{"A 4-node bilinear axisymmetric quadrilateral, reduced integration, hourglass control."}, assicurandosi di usare 2 elementi nello spessore per una modellazione corretta: in figura \ref{fig:press_2d_sim} i risultati della simulazione (scale factor pari a 20).
+
+Per i dati sono stati usati un modulo di Young $E$ pari a $2.003\times 10^5 \space MPa$, e la mesh è stata generata con un approximate size per gli elementi pari a 5 (millimetri), dando un totale di:
+\begin{itemize}
+    \item 2256 elementi
+    \item 2426 nodi
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{minipage}{0.45\linewidth}
+        \centering
+    \includegraphics[width=0.5\linewidth]{Images/press_2d_sim.png}
+    \caption{Risultati simulazione per modello \textit{"bidimensionale"} assialsimmetrico}
+    \label{fig:press_2d_sim}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+        \centering
+    \includegraphics[width=0.7\linewidth]{Images/press_geom_2d.png}
+    \caption{Disegno dello sketch 2D del contenitore in pressione}
+    \label{fig:press_geom_2d}
+    \end{minipage}
+\end{figure}
+
+
+\subsection{Modello tridimensionale}
+Il secondo modello realizzato è tridimensionale e permette di studiare in maniera più completa il serbatoio, in particolare si possono studiare i comportamenti dei bulloni e della guarnizione una volta che il recipiente è pressurizzato.
+
+I bulloni sono stati modellati come un unico elemento che include vite e due dadi, la guarnizione è un quarto di un arco di circonferenza estruso, e il serbatoio e coperchio sono entrambi un quarto del corpo reale, questo perchè si sfrutta la simmetria assiale per ridurre la quantità di elementi; i bulloni che sono stati \textit{"tagliati"} per simmetria sono modellati come la metà dei bulloni normali.
+\begin{itemize}
+    \item In figura \ref{fig_model_bull} si possono vedere i bulloni e \textit{"mezzi bulloni"}
+    \item In figura \ref{fig:model_rec} si può vedere il modello del serbatoio
+    \item In figura \ref{fig:model_cop} si può vedere il coperchio
+    \item In figura \ref{fig:model_gua} si può vedere la guarnizione
+\end{itemize}
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Images/model_bull.png}
+    \caption{Modello di bulloni e mezzi bulloni}
+    \label{fig:model_bull}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Images/model_gua.png}
+    \caption{Modello guarnizione}
+    \label{fig:model_gua}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Images/model_cop.png}
+    \caption{Modello del coperchio}
+    \label{fig:model_cop}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Images/model_rec.png}
+    \caption{Modello del serbatoio}
+    \label{fig:model_rec}
+\end{figure}
+
+
+
+
+
+Per quanto riguarda la mesh invece possiamo vedere le informazioni in tabella \ref{tab:pezzi}.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Pezzo} & \textbf{Tipo di elemento} & \textbf{Numero elementi} & \textbf{Numero nodi} & \textbf{Immagine}\\
+\hline
+Guarnizione & C3D20R & 17088 & 81927 & Fig. \ref{fig:mesh_gua}\\
+\hline
+Bullone & C3D8 & 3400 & 4214 & Fig. \ref{fig:mesh_bull}\\
+\hline
+Mezzo bullone & C3D8 & 1208 & 1705 & Fig. \ref{fig:mesh_bull}\\
+\hline
+Serbatoio & C3D8 & 7866 & 10311 & Fig. \ref{fig:mesh_rec}\\
+\hline
+Coperchio & C3D8 & 3440 & 4356 & Fig. \ref{fig:mesh_cop}\\
+\hline
+\end{tabular}
+\caption{Tabella dei pezzi e delle caratteristiche}
+\label{tab:pezzi}
+\end{table}
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Images/mesh_gua.png}
+    \caption{Mesh della guarnizione}
+    \label{fig:mesh_gua}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Images/mesh_bull.png}
+    \caption{Mesh dei bulloni e mezzi bulloni}
+    \label{fig:mesh_bull}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Images/mesh_rec.png}
+    \caption{Mesh del serbatoio}
+    \label{fig:mesh_rec}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.60\linewidth]{Images/mesh_cop.png}
+    \caption{Mesh del coperchio}
+    \label{fig:mesh_cop}
+\end{figure}
+
+In figura \ref{fig:press_3d_ass} si vede l'assembly di tutti questi componenti:
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{Images/press_3d_ass.png}
+    \caption{Assemblaggio dei vari componenti}
+    \label{fig:press_3d_ass}
+\end{figure}
+
+
+\subsubsection{Risultati simulazione}
+Impostata la simulazione possiamo studiare i risultati.
+
+
+Per i bulloni, come si vede nella figura \ref{fig:press_3d_bullone_sforzi}, dove si studia un percorso lungo la sua lunghezza nel caso di serbatoio pieno, il massimo sforzo si ha sotto la sua testa la quale va in deformazione plastica (superando anche di molto il limite di snervamento).
+In realtà i bulloni, se costruiti con \textit{Fe430D}, hanno un limite di rottura $Rm = 430 \space MPa$ e quindi non solo il loro materiale raggiunge lo snervamento, ma sicuramente entra anche in campo plastico, e, successivamente ad una fase di strizione, molto probabilmente raggiungerà la rottura.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/press_3d_bullone_sforzi.png}
+    \caption{Sforzi sulla lunghezza del bullone a serbatoio pieno, con i picchi in presenza del dado superiore e inferiore}
+    \label{fig:press_3d_bullone_sforzi}
+\end{figure}
+
+
+Per la guarnizione si raggiunge e supera il carico di snervamento permettendo la tenuta del serbatoio; questo è necessario perché la sua tenuta dipende dal suo grado di plasticizzazione grazie al quale riesce a \textit{"colmare"} le irregolarità della superficie sulla quale viene schiacciata dovute alla rugosità di quest'ultima.
+Da notare che per la guarnizione si è usato un modulo di Young $E$ pari a $69000 \space MPa$.
+
+L'analisi di deformazione plastica è stata effettuata prendendo come riferimento il parametro \textit{PEEQ}, che ci fornisce un indicazione della quantità di plasticizzazione della guarnizione. La sua analisi avviene lungo un percorso che coincide con l'intero spigolo inferiore del settore di guarnizione dove si concentrano le deformazioni plastiche, come illustrato in figura \ref{fig:guarniz_path}. 
+I risultati dell'analisi sono riportati invece nel grafico di figura \ref{fig:guarniz_grafico}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/guarnizione_mesh_1_new.png}
+    \caption{Il percorso coincide con la zona a maggior deformazione plastica che risulta essere quella colorata in verde lungo tutto lo spigolo.}
+    \label{fig:guarniz_path}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/grafico_peeq.png}
+    \caption{Lungo tutta la porzione di guarnizione il PEEQ non risulta essere mai pari a zero, segno che il serraggio dei bulloni ha deformato plasticamente in modo più o meno uniforme la guarnizione così da garantire la tenuta del recipiente.}
+    \label{fig:guarniz_grafico}
+\end{figure}
+
+La presenza di deformazione è anche indicata dagli sforzi di Von Mises, che raggiungono un massimo di $252.3\space MPa$ al bordo esterno: in confronto al limite di snervamento dell'alluminio utilizzato ($Rs = 145 \space MPa$) abbiamo uno sforzo massimo del $74\%$ superiore allo snervamento. 
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/guarnizione_sm.png}
+    \caption{Sforzi di Von Mises sulla guarnizione}
+    \label{fig:guarnizione_sm}
+\end{figure}
+
+Per il serbatoio in pressione invece, si prende in analisi un percorso lungo la sua altezza, e si campionano gli sforzi radiali, circonferenziali e assiali e li si comparano a quelli calcolati in precedenza con le formule di Mariotte, come mostrato in figura \ref{fig:press_3d_sforzi_mantello}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Images/press_3d_sforzi_mantello.png}
+    \caption{Andamento dei vari sforzi (destra) lungo un percorso verticale sul mantello (sinistra)}
+    \label{fig:press_3d_sforzi_mantello}
+\end{figure}
+
+Gli sforzi analitici e numerici sono abbastanza coerenti, sopratutto al punto medio della parete a circa 200 millimetri, e studiando gli sforzi di Von Mises vediamo che sono anche coerenti con il modello bidimensionale assial simmetrico fatto in precedenza.
+
+In figura \ref{fig:serb_sm} si vede che gli sforzi sono intorno ai $ 140 \space MPa$ sulla parete: la scala arriva fino ad un massimo di $337 \space MPas$ che si raggiunge però solo ad una delle uscite dei fori per i bulloni, quindi la parete sottile non va a plasticizzare, e ha un coefficiente di sicurezza $\eta = 1.96$ nella parte centrale, e $\eta = 1.58$.
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Images/serb_sm.png}
+    \caption{Sforzi di von mises su serbatoio e coperchio}
+    \label{fig:serb_sm}
+\end{figure}
 
 \end{document}
