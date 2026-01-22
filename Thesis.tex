@@ -126,11 +126,11 @@
 \setcounter{page}{1} % Set page counter to 1
 
 \chapter{Sommario}
-Questo documento è l'unione di 3 report differenti, svolti durante il corso di Progettazione Assistita al Calcolatore:
+Questo documento è l'unione di 3 report differenti, svolti durante il corso di Progettazione Assistita dal Calcolatore:
 \begin{itemize}
-    \item Banchetto di prova SHM.
-    \item Mensola 2D incastrata con intagli.
-    \item Recipiente in pressione.
+    \item Banchetto di prova SHM
+    \item Mensola 2D incastrata con intagli
+    \item Recipiente in pressione
 \end{itemize}
 
 Per ogni report verrà descritto il problema reale da studiare, le scelte di modellazione eseguite e, dove applicabile, risoluzioni analitiche.
@@ -602,7 +602,7 @@ Con uno spessore $t = 5\space \text{mm}$  e un rapporto $t/r = 1.0$ (intaglio se
 Sostituendo il valore di $\frac{2t}{H} = 0.\bar 3$, si ottiene $K_{t, 2, lett} = 1.22$.
 
 Per il punto $E_3$ invece ci si può rifare alla figura \ref{fig:kt_e3_graph}, che ci richiede di calcolare il rapporto $H/d$ per trovare la curva corretta, e intercettarla poi con una verticale in base al rapporto $r/d$.
-I valori vengono quindi $H/d = 1.5$ e $r/d = 0.25$ otteniamo un valore del $K_{t, 3, lett} = 1.52$
+I valori risultano quindi $H/d = 1.5$ e $r/d = 0.25$, si ottiene $K_{t, 3, lett} = 1.52$.
 
 \begin{figure}[H]
     \centering
@@ -614,7 +614,7 @@ I valori vengono quindi $H/d = 1.5$ e $r/d = 0.25$ otteniamo un valore del $K_{t
 
 \section{Costruzione modello Abaqus}
 Per verificare i risultati ottenuti col modello analitico, si utilizza il software Abaqus.
-Si aumenta progressivamente la densità della mesh fino a raggiungere il punto di rendimenti decrescenti, dove aumentare la densità non fornisce cambiamenti significativi dei risultati; una volta determinata la densità appropriata per ogni intaglio possiamo studiare i risultati.
+Si aumenta progressivamente la densità della mesh fino a raggiungere il punto di rendimenti decrescenti, dove aumentare la densità non fornisce cambiamenti significativi dei risultati; una volta determinata la densità appropriata per ogni intaglio si possono studiare i risultati.
 
 Il modello utilizza elementi CPS8R; la mesh utilizza una dimensione degli elementi globale pari a 2 (millimetri), infittendosi localmente vicino agli intagli per soddisfare la convergenza.
 
@@ -642,7 +642,7 @@ In figura \ref{fig:conv_est_1} si vede  il grafico che mostra come, all'aumentar
     \label{fig:conv_est_1}
 \end{figure}
 
-La stessa procedura di analisi è stata adottata per anche gli altri 2 punti di concentrazione degli sforzi, come si vede nelle figure \ref{fig:conv_mesh_E2} \ref{fig:conv_est_2}, \ref{fig:conv_mesh_E3}, \ref{fig:conv_est_3}.
+La stessa procedura di analisi è stata adottata per anche gli altri 2 punti di concentrazione degli sforzi, come si vede nelle figure \ref{fig:conv_mesh_E2}, \ref{fig:conv_est_2}, \ref{fig:conv_mesh_E3} e \ref{fig:conv_est_3}.
 
 \begin{figure}[H]
     \centering
@@ -681,11 +681,11 @@ La stessa procedura di analisi è stata adottata per anche gli altri 2 punti di 
 
 \subsection{Risultati di simulazione}
 
-Verificata la convergenza del modello, e cercando di ottenere uno scostamento dai valori reali entro il $5\%$ dalla simulazione, si possono prelevare gli sforzi massimi, che sono rispettivamente per i punti $E_1, E_2, E_3, E_4$:
+Verificata la convergenza del modello, e cercando di ottenere uno scostamento dai valori reali entro il $5\%$ dalla simulazione, si possono prelevare gli sforzi massimi, che sono rispettivamente per i punti $E_1, E_2, E_3 ed E_4$:
 
 $$\sigma_\textbf{max, E1} = 23.78 \space MPa\quad \sigma_\textbf{max, E2} = 65.24 \space MPa\quad \sigma_\textbf{max, E3} = 13.44 \space MPa \quad \sigma_\textbf{max, E4} = \space 8MPa$$
 
-Purtroppo, nel punto $E_1$, nonostante i tentativi non si è in grado di raggiungere uno scostamento inferiore al $5\%$ e bisogna accontentarsi di una discrepanza del $10\%$, che dati i valori relativamente bassi degli sforzi in quel punto non è ritenuta troppo problematica.
+Purtroppo, nel punto $E_1$, nonostante i tentativi non si è in grado di raggiungere uno scostamento inferiore al $5\%$ e bisogna accontentarsi di una discrepanza del $10\%$, che dati i valori relativamente bassi degli sforzi in quel punto non si ritiene troppo problematica.
 
 $$D_{\%, E_1} = 10.56 \% \qquad D_{\%, E_2} = 4.51 \% \qquad  D_{\%, E_1} = 4.68 \%$$
 
@@ -697,7 +697,7 @@ In figura \ref{fig:mensola_sforzi_mappa} una visualizzazione degli sforzi calcol
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\linewidth]{Images/mappa_colorata_intagli_2.png}
-    \caption{Visualizzazione sforzi S11 nei 3 diversi intagli della mensola}
+    \caption{Visualizzazione degli sforzi S11 nei 3 diversi intagli della mensola}
     \label{fig:mensola_sforzi_mappa}
 \end{figure}
 
@@ -705,7 +705,7 @@ In figura \ref{fig:mensola_sforzi_mappa} una visualizzazione degli sforzi calcol
 \chapter{Recipiente in pressione}
 
 \section{Problema reale}
-Si vogliono studiare gli sforzi in un contenitore assial-simmetrico in pressione , la cui geometria è riportata in immagine \ref{fig:press_geom}; si pone particolare attenzione allo stato di sforzo del mantello dello stesso, alla plasticizzazione (o meno) delle viti e della guarnizione metallica.
+Si vogliono studiare gli sforzi in un contenitore assial-simmetrico in pressione, la cui geometria è riportata in immagine \ref{fig:press_geom}; si pone particolare attenzione allo stato di sforzo del mantello dello stesso, alla plasticizzazione (o meno) delle viti e della guarnizione metallica.
 
 La pressione interna è pari a $P = 7.4548 \space MPa$, e i materiali di costruzione sono \textit{Fe430D} per le parti del recipiente e \textit{AL6061-T6} per la guarnizione.
 
@@ -720,10 +720,10 @@ La pressione interna è pari a $P = 7.4548 \space MPa$, e i materiali di costruz
 
 Il recipiente e il coperchio sono realizzati in \textit{Fe430D} e si assumono le seguenti ipotesi:
 \begin{itemize}
-    \item Simmetria assiale.
-    \item Spessore costante e sottile.
-    \item Carichi radiali ed assiali assialsimmetrici.
-    \item Assenza di brusche variazioni di diametro.
+    \item Simmetria assiale
+    \item Spessore costante e sottile
+    \item Carichi radiali ed assiali assialsimmetrici
+    \item Assenza di brusche variazioni di diametro
 \end{itemize}
 
 Le direzioni principali di sforzo sono quelle radiali, assiali e circonferenziali.
@@ -749,7 +749,7 @@ Tramite le formule di Mariotte, valide per serbatoi caratterizzati da pareti sot
 
 \[\sigma_c=\frac{P\cdot D}{2\cdot s}\qquad\sigma_a=\frac{P\cdot D}{4\cdot s}\qquad-P\leq\sigma_r\leq0\]
 
-Sostituendo i dati di pressione interna $P = 7.4548 \space MPa$, diametro interno $D = 400\space mm$ e spessore $s = 10 \space mm$ del serbatoio all'interno delle formule si ricavano i seguenti risultati:
+Sostituendo i dati di pressione interna $P = 7.4548 \space MPa$, diametro interno $D = 400\space mm$ e spessore $s = 10 \space mm$ del serbatoio all'interno delle formule, si ricavano i seguenti risultati:
 \[\sigma_c=149.096 \space MPa\qquad\sigma_a=74.548\space MPa\qquad-7.4548\space MPa\leq\sigma_r\leq0\space MPa\]
 
 Il modello ad elementi finiti che segue permetterà di verificare la correttezza dei valori appena calcolati, oltre che verificare l'ipotesi di parete sottile fatta inizialmente.
@@ -761,7 +761,7 @@ Il primo modello costruito è semplificato, ottenuto utilizzando elementi assial
 
 Gli elementi usati nella simulazione hanno codice CAX4R: \textit{"A 4-node bilinear axisymmetric quadrilateral, reduced integration, hourglass control."}, assicurandosi di usare 2 elementi nello spessore per una modellazione corretta: in figura \ref{fig:press_2d_sim} i risultati della simulazione (scale factor pari a 20).
 
-Per i dati sono stati usati un modulo di Young $E$ pari a $2.003\times 10^5 \space MPa$, e la mesh è stata generata con un approximate size per gli elementi pari a 5 (millimetri), dando un totale di:
+Per i dati sono stati usati un modulo di Young $E$ pari a $2.003\times 10^5 \space MPa$, e la mesh è stata generata con un approximate size per gli elementi pari a 5 (millimetri), generando un totale di:
 \begin{itemize}
     \item 2256 elementi
     \item 2426 nodi
@@ -847,7 +847,7 @@ Serbatoio & C3D8 & 7866 & 10311 & Fig. \ref{fig:mesh_rec}\\
 Coperchio & C3D8 & 3440 & 4356 & Fig. \ref{fig:mesh_cop}\\
 \hline
 \end{tabular}
-\caption{Tabella dei pezzi e delle caratteristiche}
+\caption{Tabella dei pezzi e delle loro caratteristiche}
 \label{tab:pezzi}
 \end{table}
 
@@ -889,7 +889,7 @@ In figura \ref{fig:press_3d_ass} si vede l'assembly di tutti questi componenti:
 
 
 \subsubsection{Risultati simulazione}
-Impostata la simulazione possiamo studiare i risultati.
+Impostata la simulazione si possono studiare i risultati.
 
 
 Per i bulloni, come si vede nella figura \ref{fig:press_3d_bullone_sforzi}, dove si studia un percorso lungo la sua lunghezza nel caso di serbatoio pieno, il massimo sforzo si ha sotto la sua testa la quale va in deformazione plastica (superando anche di molto il limite di snervamento).
@@ -904,10 +904,9 @@ In realtà i bulloni, se costruiti con \textit{Fe430D}, hanno un limite di rottu
 \end{figure}
 
 
-Per la guarnizione si raggiunge e supera il carico di snervamento permettendo la tenuta del serbatoio; questo è necessario perché la sua tenuta dipende dal suo grado di plasticizzazione grazie al quale riesce a \textit{"colmare"} le irregolarità della superficie sulla quale viene schiacciata dovute alla rugosità di quest'ultima.
-Da notare che per la guarnizione si è usato un modulo di Young $E$ pari a $69000 \space MPa$.
+Per la guarnizione si raggiunge e supera il carico di snervamento permettendo la tenuta del serbatoio; questo è necessario perché la sua tenuta dipende dal suo grado di plasticizzazione grazie al quale riesce a \textit{"colmare"} le irregolarità della superficie sulla quale viene schiacciata dovute alla rugosità di quest'ultima. Da notare che per la guarnizione si è usato un modulo di Young $E$ pari a $69000 \space MPa$.
 
-L'analisi di deformazione plastica è stata effettuata prendendo come riferimento il parametro \textit{PEEQ}, che ci fornisce un indicazione della quantità di plasticizzazione della guarnizione. La sua analisi avviene lungo un percorso che coincide con l'intero spigolo inferiore del settore di guarnizione dove si concentrano le deformazioni plastiche, come illustrato in figura \ref{fig:guarniz_path}. 
+L'analisi di deformazione plastica è stata effettuata prendendo come riferimento il parametro \textit{PEEQ}, che fornisce un indicazione della quantità di plasticizzazione della guarnizione. La sua analisi avviene lungo un percorso che coincide con l'intero spigolo inferiore del settore di guarnizione dove si concentrano le deformazioni plastiche, come illustrato in figura \ref{fig:guarniz_path}. 
 I risultati dell'analisi sono riportati invece nel grafico di figura \ref{fig:guarniz_grafico}.
 
 \begin{figure}[H]
@@ -921,7 +920,7 @@ I risultati dell'analisi sono riportati invece nel grafico di figura \ref{fig:gu
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Images/grafico_peeq.png}
-    \caption{Lungo tutta la porzione di guarnizione il PEEQ non risulta essere mai pari a zero, segno che il serraggio dei bulloni ha deformato plasticamente in modo più o meno uniforme la guarnizione così da garantire la tenuta del recipiente.}
+    \caption{Lungo tutta la porzione di guarnizione il PEEQ non risulta essere mai pari a zero, segno che il serraggio dei bulloni ha deformato plasticamente in modo più o meno uniforme la guarnizione così da garantire la tenuta del recipiente}
     \label{fig:guarniz_grafico}
 \end{figure}
 
@@ -943,9 +942,9 @@ Per il serbatoio in pressione invece, si prende in analisi un percorso lungo la 
     \label{fig:press_3d_sforzi_mantello}
 \end{figure}
 
-Gli sforzi analitici e numerici sono abbastanza coerenti, sopratutto al punto medio della parete a circa 200 millimetri, e studiando gli sforzi di Von Mises vediamo che sono anche coerenti con il modello bidimensionale assial simmetrico fatto in precedenza.
+Gli sforzi analitici e numerici sono abbastanza coerenti, sopratutto al punto medio della parete a circa 200 millimetri, e studiando gli sforzi di Von Mises si vede che sono anche coerenti con il modello bidimensionale assial simmetrico realizzato in precedenza.
 
-In figura \ref{fig:serb_sm} si vede che gli sforzi sono intorno ai $ 140 \space MPa$ sulla parete: la scala arriva fino ad un massimo di $337 \space MPa$ che si raggiunge però solo ad una delle uscite dei fori per i bulloni, quindi la parete sottile non va a plasticizzare, e ha un coefficiente di sicurezza $\eta = 1.96$ nella parte centrale, e $\eta = 1.58$ considerando gli sforzi maggiorati nei punti più lontani dalla metà.
+In figura \ref{fig:serb_sm} si vede che gli sforzi sono intorno ai $ 140 \space MPa$ sulla parete: la scala arriva fino ad un massimo di $337 \space MPa$ che si raggiunge però solo ad una delle uscite dei fori per i bulloni, quindi la parete sottile non va a plasticizzare, e ha un coefficiente di sicurezza $\eta = 1.96$ nella parte centrale, e $\eta = 1.58$, considerando gli sforzi maggiorati, nei punti più lontani dalla metà.
 
 \begin{figure} [H]
     \centering
