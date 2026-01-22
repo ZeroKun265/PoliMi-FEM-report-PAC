@@ -234,7 +234,7 @@ Nella figura \ref{fig:asta_giunta} si ha la rappresentazione del sistema di fiss
     \label{fig:asta_giunta}
 \end{figure}
 
-Le travi sono in alluminio, con il modulo di Young $E = 61639.8 MPa$, sono di sezione quadrata cava, con le quote riportate in figura \ref{fig:aste_quote}
+Le travi sono in alluminio, con modulo di Young $E = 61639.8 MPa$, sono di sezione quadrata cava, con le quote riportate in figura \ref{fig:aste_quote}
 
 
 \begin{figure}[H]
@@ -285,7 +285,7 @@ I dettagli della configurazione corrente sono:
 
 \section{Modellazione con elementi truss}
 \label{ch:mod_truss}%
-Si studia ora la struttura con elementi lineari truss: due nodi e forze solo assiali
+Si studia ora la struttura con elementi lineari truss: due nodi e forze solo assiali.
 
 \subsection{Trattazione analitica}
 \label{s:truss_analog}%
@@ -296,7 +296,8 @@ Si studia ora la struttura con elementi lineari truss: due nodi e forze solo ass
     \label{fig:esploso_an}
 \end{figure}
 
-Si utilizza una formulazione analitica, quindi dato lo schema delle forze nell'esploso in figura \ref{fig:esploso_an} si possono ricavare la matrice in figura \ref{fig:matr} del bilancio delle forze ai nodi, dalla quale si ricavano poi le azioni interne e le reazioni vincolari:
+
+Si utilizza una formulazione analitica, quindi dato lo schema delle forze nell'esploso in figura \ref{fig:esploso_an} si può ricavare il sistema in figura \ref{fig:matr} del bilancio delle forze ai nodi, dal quale si ricavano poi le azioni interne e le reazioni vincolari:
 
 $$F_1 = -428\space N \quad F_2 = 428 \space N\quad F_3 = -428 \space N \quad F_4 = 428 \space N \quad F_5 = 428 \space N$$
 $$F_6 = -856 \space N\quad F_7 = 0 \space N\quad R_{1x} = -428\sqrt3\space N \quad R_{1y} = -428 \space N\quad R_{2x} = -428\sqrt3 \space N$$
@@ -320,7 +321,7 @@ P &+\frac{1}2 F_1 & -\frac12F_2 & & & & & & & & & 0\\
 \end{array}
     \right.
     \end{gather*}
-    \caption{Matrice del bilancio delle forze per il caso con forze solo assiali}
+    \caption{Bilancio delle forze per il caso con forze solo assiali}
     \label{fig:matr}
 \end{figure}
 
@@ -339,7 +340,7 @@ Il modello Abaqus è stato costruito rispecchiando quello analitico risolto in p
 Per confrontare la simulazione col modello analitico si sfruttano i grafici che seguono:
 \begin{itemize}
     \item In figura \ref{fig:freccine_truss} è rappresentato il verso delle azioni interne
-    \item In figure \ref{fig:truss_grafichino} si può apprezzare il valore delle forze con segno, in base alla convenzione analitica in figura \ref{fig:esploso_an}
+    \item In figura \ref{fig:truss_grafichino} si può apprezzare il valore delle forze con segno, in base alla convenzione analitica in figura \ref{fig:esploso_an}
     \item In figura \ref{fig:truss_def} si osserva invece la struttura indeformata in nero con la sua deformata (fattore di scala $5e2$)
 \end{itemize}
 
@@ -419,20 +420,20 @@ A seconda che vengano serrati o meno i bulloni che creano il vincolo al nodo $3$
     \begin{minipage}{0.7\linewidth}
         \centering
         \includegraphics[width=1\linewidth]{Images/beam_ref_points.png}
-        \caption{Assembly della struttura usando con modelli beam}
+        \caption{Assembly della struttura usando modelli beam}
         \label{fig:ass_beam}
     \end{minipage}
     \hfill
     \begin{minipage}{0.7\linewidth}
         \centering
         \includegraphics[width=1\linewidth]{Images/nodo_2_zoom.png}
-        \caption{Primo piano del nodo centrale}
+        \caption{Primo piano del nodo 3}
         \label{fig:nodo_2_zoom}
     \end{minipage}
 \end{figure}
 
 In figura \ref{fig:ass_beam} si vede la struttura costruita con modello beam per le assi. Per la trattazione a travi incastrate, viene impostato un vincolo cinematico tra i punti $RP-11, RP-13, RP-14, RP-15, RP-18$ di incastro, bloccando spostamento e rotazione.
-In figura \ref{fig:nodo_2_zoom} si vede un primo piano dei nodi sopracitati.
+In figura \ref{fig:nodo_2_zoom} si vede un primo piano del nodo 3 con i reference point sopracitati.
 
 Avviata la simulazione, si possono leggere i risultati:
 \begin{itemize}
@@ -470,7 +471,7 @@ Le immagini contenenti la deformata hanno uno scale factor di $2.767e+02$. La fi
     \label{fig:profilo_farf_beam_primopiano}
 \end{figure}
 
-In figura \ref{fig:beam_enc_s_mises} invece si apprezzano gli sforzi equivalenti di \textit{Von Mises}
+In figura \ref{fig:beam_enc_s_mises} invece si apprezzano gli sforzi equivalenti di Von Mises.
 
 \begin{figure}[H]
     \centering
@@ -516,7 +517,7 @@ Applicando quindi un vincolo differente, e lasciando il resto della struttura in
 \chapter{Mensola bidimensionale intagliata con incastro}
 
 \section{Problema reale}
-Si vuole studiare la mensola mostrata in figura \ref{fig:2-mensola} che presenta due intagli e un raccordo in corrispondenza di una riduzione di sezione; in particolare si vuole trovare il valore dei coefficienti di intaglio in corrispondenza di questi 3 punti. Una forza concentrata $P = 19.62\space N$ è applicata all'estremità destra della mensola
+Si vuole studiare la mensola mostrata in figura \ref{fig:2-mensola} che presenta due intagli e un raccordo in corrispondenza di una riduzione di sezione; in particolare si vuole trovare il valore dei coefficienti di intaglio in corrispondenza di questi 3 punti. Una forza concentrata $P = 19.62\space N$ è applicata all'estremità destra della mensola.
 
 \begin{figure}[H]
     \centering
@@ -552,7 +553,7 @@ Si procede quindi a trovare i coefficienti di intaglio tramite:
     \label{fig:2-schema-asta}
 \end{figure}
 
-Si schematizza l'asta come in figura \ref{fig:2-schema-asta}, si trovano le azioni interne come in figura \ref{fig:2-azioni-interne} e si calcola il modulo di Young sfruttando l'estensimetro $E_4$, dove non abbiamo nessun tipo di intaglio.
+Si schematizza l'asta come in figura \ref{fig:2-schema-asta}, si trovano le azioni interne come in figura \ref{fig:2-azioni-interne} e si calcola il modulo di Young sfruttando l'estensimetro $E_4$, dove non si ha nessun tipo di intaglio.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Images/2-azioni-interne.png}
@@ -578,7 +579,7 @@ $$K_{t,1,sper} = \frac{\sigma_\textbf{max, E1}}{\sigma_\textbf{nom, E1}} = 1.77\
 
 \section{Derivazione sperimentale dei coefficienti di intaglio da letteratura}
 
-Si possono derivare i coefficienti di intaglio anche da grafici di letteratura, quindi per il punto $E_1$ si consulta il grafico in figura \ref{fig:kt_e1_graph}
+Si possono derivare i coefficienti di intaglio anche da grafici di letteratura, quindi per il punto $E_1$ si consulta il grafico in figura \ref{fig:kt_e1_graph}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Images/kt_graph_e1.png}
@@ -586,9 +587,9 @@ Si possono derivare i coefficienti di intaglio anche da grafici di letteratura, 
     \label{fig:kt_e1_graph}
 \end{figure}
 
-Con $\frac{2r}{H}= 0.\bar 3$ si ottiene $K_{t, 1, lett} = 1.63$
+Con $\frac{2r}{H}= 0.\bar 3$ si ottiene $K_{t, 1, lett} = 1.63$.
 
-Passando al punto $E_2$ si può consultare il grafico in figura \ref{fig:kt_e2_graph}
+Passando al punto $E_2$ si può consultare il grafico in figura \ref{fig:kt_e2_graph}.
 
 \begin{figure}[H]
     \centering
@@ -598,9 +599,9 @@ Passando al punto $E_2$ si può consultare il grafico in figura \ref{fig:kt_e2_g
 \end{figure}
 
 Con uno spessore $t = 5\space \text{mm}$  e un rapporto $t/r = 1.0$ (intaglio semicircolare), si utilizza la formulazione analitica indicata in figura \ref{fig:kt_e2_graph}: $K_{tn} = 3.065 - 6.637\left(\frac{2t}{H}\right) + 8.229\left(\frac{2t}{H}\right)^2 - 3.636\left(\frac{2t}{H}\right)^3$
-Sostituendo il valore di $\frac{2t}{H} = 0.\bar 3$, si ottiene $K_{t, 2, lett} = 1.63$.
+Sostituendo il valore di $\frac{2t}{H} = 0.\bar 3$, si ottiene $K_{t, 2, lett} = 1.22$.
 
-Per il punto $E_3$ invece ci si può rifare alla figura \ref{fig_kt_e3_graph}, che ci richiede di calcolare il rapporto $H/d$ per trovare la curva corretta, e intercettarla poi con una verticale in base al rapporto $r/d$.
+Per il punto $E_3$ invece ci si può rifare alla figura \ref{fig:kt_e3_graph}, che ci richiede di calcolare il rapporto $H/d$ per trovare la curva corretta, e intercettarla poi con una verticale in base al rapporto $r/d$.
 I valori vengono quindi $H/d = 1.5$ e $r/d = 0.25$ otteniamo un valore del $K_{t, 3, lett} = 1.52$
 
 \begin{figure}[H]
@@ -619,11 +620,11 @@ Il modello utilizza elementi CPS8R; la mesh utilizza una dimensione degli elemen
 
 La mesh finale ha 6858 elementi e 21359 nodi.
 
-Si utilizza l'integrazione ridotta per una diminuzione del tempo di simulazione, l'integrazione completa da dei risultati comparabili alla ridotta e quindi non necessaria.
+Si utilizza l'integrazione ridotta per una diminuzione del tempo di simulazione, l'integrazione completa da dei risultati comparabili alla ridotta e quindi non è necessaria.
 
 \subsection{Analisi di convergenza}
 
-Per lo studio dell'intaglio situato nel punto E1, le varie mesh utilizzate sono riportate in figura \ref{fig:conv_mesh_E1}
+Per lo studio dell'intaglio situato nel punto E1, le varie mesh utilizzate sono riportate in figura \ref{fig:conv_mesh_E1}.
 
 \begin{figure}[H]
     \centering
@@ -632,7 +633,7 @@ Per lo studio dell'intaglio situato nel punto E1, le varie mesh utilizzate sono 
     \label{fig:conv_mesh_E1}
 \end{figure}
 
-Si vede in \ref{fig:conv_est_1} il grafico che mostra come all'aumentare della densità della mesh nel punto E1 si converga ad un risultato stabile in corrispondenza di un numero di elementi lungo l'arco pari a quaranta.
+In figura \ref{fig:conv_est_1} si vede  il grafico che mostra come, all'aumentare della densità della mesh nel punto E1, si converga ad un risultato stabile in corrispondenza di un numero di elementi lungo l'arco pari a quaranta.
 
 \begin{figure}[H]
     \centering
@@ -680,7 +681,7 @@ La stessa procedura di analisi è stata adottata per anche gli altri 2 punti di 
 
 \subsection{Risultati di simulazione}
 
-Verificata la convergenza del modello, e cercando di ottenere uno scostamento dai valori reali entro il $5\%$ dalla simulazione, si possono prelevare gli sforzi massimi, che sono rispettivamente per i punti $E_1, R_2, E_3, E_4$:
+Verificata la convergenza del modello, e cercando di ottenere uno scostamento dai valori reali entro il $5\%$ dalla simulazione, si possono prelevare gli sforzi massimi, che sono rispettivamente per i punti $E_1, E_2, E_3, E_4$:
 
 $$\sigma_\textbf{max, E1} = 23.78 \space MPa\quad \sigma_\textbf{max, E2} = 65.24 \space MPa\quad \sigma_\textbf{max, E3} = 13.44 \space MPa \quad \sigma_\textbf{max, E4} = \space 8MPa$$
 
@@ -730,11 +731,11 @@ Le direzioni principali di sforzo sono quelle radiali, assiali e circonferenzial
 \subsection{Bulloni}
 I bulloni, che nel modello ad elementi finiti tridimensionale saranno modellati come un unico pezzo invece di una vite più il dado, sono dello stesso materiale del recipiente e coperchio; si tratta di 16 bulloni disposti radialmente e uniformemente sulla flangia per fissare il coperchio e schiacciare la guarnizione metallica.
 
-Uno degli obiettivi è quello di determinare la plasticizzazione o meno degli stessi, e per tanto si prenderà come valore di riferimento il limite di snervamento $R_s = 275 MPa$ 
+Uno degli obiettivi è quello di determinare la plasticizzazione o meno degli stessi, e per tanto si prenderà come valore di riferimento il limite di snervamento $R_s = 275 MPa$.
 
 \subsection{Guarnizione}
 La guarnizione assicura la tenuta ed evita trafilamenti di fluido.
-E' realizzata in lega di alluminio \textit{Al6061-T6} con carico di snervamento $R_s = 145MPa$
+E' realizzata in lega di alluminio \textit{AL6061-T6} con carico di snervamento $R_s = 145MPa$.
 
 
 
@@ -748,10 +749,10 @@ Tramite le formule di Mariotte, valide per serbatoi caratterizzati da pareti sot
 
 \[\sigma_c=\frac{P\cdot D}{2\cdot s}\qquad\sigma_a=\frac{P\cdot D}{4\cdot s}\qquad-P\leq\sigma_r\leq0\]
 
-Sostituendo i dati di pressione interna $P = 7.4548 \space MPa$, diametro interno $D = 400\space mm$ e spessore $s = 10 \space mm$ del serbatoio all'interno delle formule si ricavano i seguenti risultati
+Sostituendo i dati di pressione interna $P = 7.4548 \space MPa$, diametro interno $D = 400\space mm$ e spessore $s = 10 \space mm$ del serbatoio all'interno delle formule si ricavano i seguenti risultati:
 \[\sigma_c=149.096 \space MPa\qquad\sigma_a=74.548\space MPa\qquad-7.4548\space MPa\leq\sigma_r\leq0\space MPa\]
 
-Il modello ad elementi finiti che segue permetterà di verificare la correttezza dei valori appena calcolati oltre che verificare l'ipotesi di parete sottile fatta inizialmente.
+Il modello ad elementi finiti che segue permetterà di verificare la correttezza dei valori appena calcolati, oltre che verificare l'ipotesi di parete sottile fatta inizialmente.
 
 \section{Modello ad elementi finiti}
 
@@ -790,7 +791,7 @@ Il secondo modello realizzato è tridimensionale e permette di studiare in manie
 
 I bulloni sono stati modellati come un unico elemento che include vite e due dadi, la guarnizione è un quarto di un arco di circonferenza estruso, e il serbatoio e coperchio sono entrambi un quarto del corpo reale, questo perchè si sfrutta la simmetria assiale per ridurre la quantità di elementi; i bulloni che sono stati \textit{"tagliati"} per simmetria sono modellati come la metà dei bulloni normali.
 \begin{itemize}
-    \item In figura \ref{fig_model_bull} si possono vedere i bulloni e \textit{"mezzi bulloni"}
+    \item In figura \ref{fig:model_bull} si possono vedere i bulloni e \textit{"mezzi bulloni"}
     \item In figura \ref{fig:model_rec} si può vedere il modello del serbatoio
     \item In figura \ref{fig:model_cop} si può vedere il coperchio
     \item In figura \ref{fig:model_gua} si può vedere la guarnizione
@@ -933,7 +934,7 @@ La presenza di deformazione è anche indicata dagli sforzi di Von Mises, che rag
     \label{fig:guarnizione_sm}
 \end{figure}
 
-Per il serbatoio in pressione invece, si prende in analisi un percorso lungo la sua altezza, e si campionano gli sforzi radiali, circonferenziali e assiali e li si comparano a quelli calcolati in precedenza con le formule di Mariotte, come mostrato in figura \ref{fig:press_3d_sforzi_mantello}.
+Per il serbatoio in pressione invece, si prende in analisi un percorso lungo la sua altezza, e si campionano gli sforzi radiali, circonferenziali e assiali, e li si comparano a quelli calcolati in precedenza con le formule di Mariotte, come mostrato in figura \ref{fig:press_3d_sforzi_mantello}.
 
 \begin{figure}[H]
     \centering
@@ -944,7 +945,7 @@ Per il serbatoio in pressione invece, si prende in analisi un percorso lungo la 
 
 Gli sforzi analitici e numerici sono abbastanza coerenti, sopratutto al punto medio della parete a circa 200 millimetri, e studiando gli sforzi di Von Mises vediamo che sono anche coerenti con il modello bidimensionale assial simmetrico fatto in precedenza.
 
-In figura \ref{fig:serb_sm} si vede che gli sforzi sono intorno ai $ 140 \space MPa$ sulla parete: la scala arriva fino ad un massimo di $337 \space MPas$ che si raggiunge però solo ad una delle uscite dei fori per i bulloni, quindi la parete sottile non va a plasticizzare, e ha un coefficiente di sicurezza $\eta = 1.96$ nella parte centrale, e $\eta = 1.58$.
+In figura \ref{fig:serb_sm} si vede che gli sforzi sono intorno ai $ 140 \space MPa$ sulla parete: la scala arriva fino ad un massimo di $337 \space MPa$ che si raggiunge però solo ad una delle uscite dei fori per i bulloni, quindi la parete sottile non va a plasticizzare, e ha un coefficiente di sicurezza $\eta = 1.96$ nella parte centrale, e $\eta = 1.58$ considerando gli sforzi maggiorati nei punti più lontani dalla metà.
 
 \begin{figure} [H]
     \centering
